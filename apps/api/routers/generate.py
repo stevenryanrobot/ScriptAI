@@ -5,14 +5,17 @@ from models.schemas import GenerateRequest
 from services.script_engine import ScriptEngine
 
 router = APIRouter()
-engine = ScriptEngine()
+
+
+def get_engine():
+    return ScriptEngine()
 
 
 @router.post("/generate")
 async def generate_script(request: GenerateRequest):
     try:
         return StreamingResponse(
-            engine.generate_stream(request),
+            get_engine().generate_stream(request),
             media_type="text/event-stream",
             headers={
                 "Cache-Control": "no-cache",
@@ -29,7 +32,7 @@ async def regenerate_shot(request: GenerateRequest):
     """Regenerate a single shot"""
     try:
         return StreamingResponse(
-            engine.generate_stream(request),
+            get_engine().generate_stream(request),
             media_type="text/event-stream",
             headers={
                 "Cache-Control": "no-cache",
