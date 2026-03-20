@@ -1,0 +1,82 @@
+[
+  {
+    "id": "reversal",
+    "name": "逆袭反转",
+    "icon": "TrendingUp",
+    "description": "从低谷到高光的反转叙事",
+    "suitableFor": ["励志", "成长"],
+    "exampleHook": "三个月前，我还在出租屋里吃泡面...",
+    "color": "bg-gradient-to-br from-orange-400 to-rose-500",
+    "promptTemplate": "请创作一个"逆袭反转"类型的短视频脚本。叙事要从低谷/困境开始，逐步展现努力过程，最终呈现反转高光时刻。"
+  },
+  {
+    "id": "daily_slice",
+    "name": "日常切片",
+    "icon": "Coffee",
+    "description": "生活场景的小故事",
+    "suitableFor": ["Vlog", "生活方式"],
+    "exampleHook": "今天发生了一件特别有意思的事...",
+    "color": "bg-gradient-to-br from-green-400 to-emerald-500",
+    "promptTemplate": "请创作一个"日常切片"类型的短视频脚本。从一个真实的生活场景切入。"
+  },
+  {
+    "id": "knowledge",
+    "name": "知识输出",
+    "icon": "Lightbulb",
+    "description": "干货分享结构",
+    "suitableFor": ["知识博主", "行业解读"],
+    "exampleHook": "99% 的人都不知道的一个技巧...",
+    "color": "bg-gradient-to-br from-blue-400 to-indigo-500",
+    "promptTemplate": "请创作一个"知识输出"类型的短视频脚本。"
+  },
+  {
+    "id": "emotional",
+    "name": "情感共鸣",
+    "icon": "Heart",
+    "description": "热点话题的观点表达",
+    "suitableFor": ["情感账号"],
+    "exampleHook": "你有没有过这样的时刻...",
+    "color": "bg-gradient-to-br from-pink-400 to-purple-500",
+    "promptTemplate": "请创作一个"情感共鸣"类型的短视频脚本。"
+  },
+  {
+    "id": "review",
+    "name": "评测种草",
+    "icon": "Star",
+    "description": "产品体验 + 个人观点",
+    "suitableFor": ["好物推荐"],
+    "exampleHook": "用了三个月，终于可以说说真实感受了...",
+    "color": "bg-gradient-to-br from-yellow-400 to-orange-500",
+    "promptTemplate": "请创作一个"评测种草"类型的短视频脚本。"
+  },
+  {
+    "id": "comparison",
+    "name": "对比拆解",
+    "icon": "GitCompare",
+    "description": "A vs B 对比分析",
+    "suitableFor": ["科技", "美妆"],
+    "exampleHook": "都说 A 好，但跟 B 一比你就知道了...",
+    "color": "bg-gradient-to-br from-cyan-400 to-blue-500",
+    "promptTemplate": "请创作一个"对比拆解"类型的短视频脚本。"
+  },
+  {
+    "id": "challenge",
+    "name": "挑战记录",
+    "icon": "Trophy",
+    "description": "挑战某件事的过程记录",
+    "suitableFor": ["健身", "学习"],
+    "exampleHook": "我决定用 30 天挑战...",
+    "color": "bg-gradient-to-br from-violet-400 to-purple-500",
+    "promptTemplate": "请创作一个"挑战记录"类型的短视频脚本。"
+  },
+  {
+    "id": "behind_scenes",
+    "name": "幕后揭秘",
+    "icon": "Eye",
+    "description": "展示不为人知的过程/真相",
+    "suitableFor": ["各类型账号"],
+    "exampleHook": "你看到的只是表面，背后其实...",
+    "color": "bg-gradient-to-br from-slate-400 to-gray-600",
+    "promptTemplate": "请创作一个"幕后揭秘"类型的短视频脚本。"
+  }
+]
