@@ -1,16 +1,17 @@
 import json
 import os
-import anthropic
+from openai import OpenAI
 from models.schemas import GenerateRequest
 from services.prompt_builder import build_prompt
 
 
 class ScriptEngine:
     def __init__(self):
-        self.client = anthropic.Anthropic(
-            api_key=os.getenv("ANTHROPIC_API_KEY", "")
+        self.client = OpenAI(
+            api_key=os.getenv("ARK_API_KEY", ""),
+            base_url="https://ark.cn-beijing.volces.com/api/v3",
         )
-        self.model = "claude-sonnet-4-20250514"
+        self.model = os.getenv("ARK_MODEL", "doubao-seed-2-0-mini-260215")
 
     async def generate_stream(self, request: GenerateRequest):
         """Generate script with streaming SSE output."""
@@ -26,22 +27,17 @@ class ScriptEngine:
             custom_prompt=request.customPrompt,
         )
 
-        system_msg = ""
-        user_messages = []
-        for msg in messages:
-            if msg["role"] == "system":
-                system_msg = msg["content"]
-            else:
-                user_messages.append(msg)
-
         try:
-            with self.client.messages.stream(
+            stream = self.client.chat.completions.create(
                 model=self.model,
                 max_tokens=4096,
-                system=system_msg,
-                messages=user_messages,
-            ) as stream:
-                for text in stream.text_stream:
+                messages=messages,
+                stream=True,
+            )
+
+            for chunk in stream:
+                if chunk.choices and chunk.choices[0].delta.content:
+                    text = chunk.choices[0].delta.content
                     yield f"data: {json.dumps({'text': text}, ensure_ascii=False)}\n\n"
 
             yield "data: [DONE]\n\n"
