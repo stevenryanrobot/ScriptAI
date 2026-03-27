@@ -1,16 +1,36 @@
-import { NextAuthOptions } from 'next-auth'
+import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import WechatProvider from 'next-auth/providers/wechat'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import prisma from './prisma'
 
 export const authOptions: NextAuthOptions = {
-  // Use JWT strategy since we're using credentials
+  adapter: PrismaAdapter(prisma) as any,
   session: { strategy: 'jwt' },
   pages: {
     signIn: '/login',
     newUser: '/persona/setup',
   },
   providers: [
+    // 微信登录
+    WechatProvider({
+      clientId: process.env.WECHAT_APP_ID || '',
+      clientSecret: process.env.WECHAT_APP_SECRET || '',
+      authorization: {
+        params: {
+          scope: 'snsapi_login',
+        },
+      },
+      profile(profile) {
+        return {
+          id: profile.openid,
+          name: profile.nickname,
+          email: null,
+          image: profile.headimgurl,
+        }
+      },
+    }),
+    // 邮箱密码登录（保留）
     CredentialsProvider({
       name: 'Email',
       credentials: {
@@ -35,13 +55,34 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async signIn({ user, account, profile }) {
+      // 微信登录时，如果没有邮箱，用 openid 生成一个虚拟邮箱
+      if (account?.provider === 'wechat') {
+        if (!user.email) {
+          user.email = `wechat_${user.id}@wechat.scriptai.local`
+        }
+      }
+      return true
+    },
+    async jwt({ token, user, account, profile }) {
       if (user) token.userId = user.id
+      if (account) {
+        token.provider = account.provider
+        if (account.provider === 'wechat' && profile) {
+          token.wechatOpenid = (profile as any).openid
+        }
+      }
       return token
     },
     async session({ session, token }) {
-      if (session.user) (session.user as any).id = token.userId
+      if (session.user) {
+        (session.user as any).id = token.userId
+        (session.user as any).provider = token.provider
+      }
       return session
     },
   },
 }
+
+const handler = NextAuth(authOptions)
+export { handler as GET, handler as POST }
