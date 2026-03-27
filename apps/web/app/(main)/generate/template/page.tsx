@@ -21,7 +21,7 @@ export default function TemplatePage() {
       <div className="flex justify-end mt-8">
         <Button
           disabled={!templateId}
-          onClick={() => router.push('/generate/narrative')}
+          onClick={() => router.push(`/generate/narrative?template=${templateId}`)}
         >
           下一步：选择叙事链条 <ChevronRight size={16} />
         </Button>
